@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jpa?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: dhk
+    password: dhk
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+       hibernate.format_sql: true
