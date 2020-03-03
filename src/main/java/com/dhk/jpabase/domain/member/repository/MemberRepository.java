@@ -1,5 +1,6 @@
-package com.dhk.jpabase.domain.member.entity;
+package com.dhk.jpabase.domain.member.repository;
 
+import com.dhk.jpabase.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

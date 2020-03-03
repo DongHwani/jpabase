@@ -1,7 +1,7 @@
-package com.dhk.jpabase;
+package com.dhk.jpabase.domain.repository;
 
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.domain.member.entity.MemberRepository;
+import com.dhk.jpabase.domain.member.repository.MemberRepository;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.Test;
@@ -14,9 +14,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MemberJpaTest {
+public class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
