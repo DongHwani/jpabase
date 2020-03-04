@@ -1,5 +1,6 @@
-package com.dhk.jpabase.domain.repository;
+package com.dhk.jpabase.application;
 
+import com.dhk.jpabase.application.lecture.LectureChanger;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
 import com.dhk.jpabase.domain.lecture.entity.LectureLine;
@@ -13,23 +14,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
-public class LectureRepositoryTest {
+public class LectureServiceTest {
+
+    @Autowired
+    private LectureChanger lectureChanger;
 
     @Autowired
     private LectureRepository lectureRepository;
@@ -41,58 +41,27 @@ public class LectureRepositoryTest {
 
     @Before
     public void setUp(){
-       lecture = createLecture();
+        lecture = createLecture();
     }
 
-
     @Test
-    public void saveLecture(){
-        //Given & When
-        Lecture savedLecture = lectureRepository.save(lecture);
-
-        //Them
-        assertThat(savedLecture).isNotNull();
-        assertThat(savedLecture.getLectureId()).isNotNull();
-        assertThat(savedLecture.getInstructor()).isNotNull();
-        assertThat(savedLecture.getCategory()).isEqualTo(lecture.getCategory());
-        assertThat(savedLecture.getLectureInformation()).isEqualTo(lecture.getLectureInformation());
-        assertThat(savedLecture.getLectureClassName()).isEqualTo(lecture.getLectureClassName());
-        assertThat(savedLecture.getPrice()).isEqualTo(lecture.getPrice());
-        assertThat(savedLecture.getCreatedAt()).isEqualTo(lecture.getCreatedAt());
-        assertThat(savedLecture.getLectureLines().size()).isNotNull();
-    }
-
-
-    @Test
-    public void getLecture(){
+    public void LectureLinesUpdate() {
         //Given
         Lecture savedLecture = lectureRepository.save(lecture);
+
+        List<LectureLine> updateLines = new ArrayList<>();
+        updateLines.add(new LectureLine("제 1장 오리엔테이션", "내용"));
+        updateLines.add(new LectureLine("제 2장 학습목표", "내용"));
+        updateLines.add(new LectureLine("제 3장 객체", "내용"));
 
         //When
-        Optional<Lecture> optionalLecture = lectureRepository.findById(savedLecture.getLectureId());
-        Lecture result = optionalLecture.get();
+        lectureChanger.updateLectureLines(savedLecture.getLectureId(), updateLines);
+        Optional<Lecture> optional = lectureRepository.findById(savedLecture.getLectureId());
+        Lecture result = optional.get();
 
         //Then
-        assertThat(result.getLectureId()).isEqualTo(savedLecture.getLectureId());
-        assertThat(result.getLectureClassName()).isEqualTo(savedLecture.getLectureClassName());
-        assertThat(result.getPrice()).isEqualTo(savedLecture.getPrice());
-        assertThat(result.getLectureInformation()).isEqualTo(savedLecture.getLectureInformation());
-        assertThat(result.getInstructor().getMemberId()).isEqualTo(savedLecture.getInstructor().getMemberId());
-        assertThat(result.getLectureLines(), hasSize(2));
+        assertThat(result.getLectureLines(), hasSize(3));
     }
-
-    @Test
-    public void deleteLecture(){
-        //Given
-        Lecture savedLecture = lectureRepository.save(lecture);
-
-        //When & THen
-        lectureRepository.deleteById(savedLecture.getLectureId());
-
-        System.out.println(lectureRepository.count());
-        assertThat(lectureRepository.count()).isEqualTo(0);
-    }
-
 
     private Lecture createLecture() {
         List<LectureLine> list = new ArrayList<>();
@@ -121,6 +90,5 @@ public class LectureRepositoryTest {
         Member member = builder.nextObject(Member.class, "memberId");
         return memberRepository.save(member);
     }
-
 
 }

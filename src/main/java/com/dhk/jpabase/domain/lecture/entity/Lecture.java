@@ -6,17 +6,19 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Builder @Getter
+@Builder
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access =AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(schema = "jpa", name = "lectures")
 public class Lecture extends BaseTime {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lectureId;
 
     @ManyToOne
@@ -30,8 +32,14 @@ public class Lecture extends BaseTime {
     private LectureCategory category;
     private BigDecimal price;
 
-    @ElementCollection
-    @CollectionTable(name = "lectureLines", joinColumns = @JoinColumn(name="lectureId"))
-    private Set<LectureLine> lectureLines = new HashSet<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "lectureLines", joinColumns = @JoinColumn(name = "lectureId"))
+    private List<LectureLine> lectureLines = new ArrayList<>();
 
+    public void updateLectureLines(List<LectureLine> newLectureLines) {
+        if (newLectureLines == null || newLectureLines.size() == 0) {
+            throw new IllegalArgumentException();
+        }
+        this.lectureLines = newLectureLines;
+    }
 }
