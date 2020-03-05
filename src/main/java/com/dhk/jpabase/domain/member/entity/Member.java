@@ -14,18 +14,13 @@ public class Member extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-
     private String memberEmail;
-
     private String password;
 
     @Embedded
     private Address address;
-
     private String phoneNumber;
-
     private String nickName;
-
 
     @Embedded
     private Account account;
@@ -37,7 +32,7 @@ public class Member extends BaseTime {
         this.phoneNumber = member.getPhoneNumber();
     }
 
-    public void changePassword(final String newPassword){
+    public void changePassword(String newPassword){
         this.password = newPassword;
     }
 

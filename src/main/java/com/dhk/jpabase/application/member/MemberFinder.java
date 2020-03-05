@@ -2,11 +2,12 @@ package com.dhk.jpabase.application.member;
 
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
+import com.dhk.jpabase.domain.member.repository.MemberRepositorySupport;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +20,9 @@ public class MemberFinder {
         final Member member = memberRepository.findByMemberEmail(memberEmail)
                                     .orElseThrow(IllegalArgumentException::new);
         return member;
+    }
+
+    public List<Member> findByAddressCity(final String city) {
+        return memberRepository.findByAddressCity(city);
     }
 }
