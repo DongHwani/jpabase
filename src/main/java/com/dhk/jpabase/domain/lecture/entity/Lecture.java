@@ -34,7 +34,7 @@ public class Lecture extends BaseTime {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "lectureLines", joinColumns = @JoinColumn(name = "lectureId"))
-    private List<LectureLine> lectureLines = new ArrayList<>();
+    private List<LectureLine> lectureLines;
 
     public void updateLectureLines(List<LectureLine> newLectureLines) {
         if (newLectureLines == null || newLectureLines.size() <= 0) {

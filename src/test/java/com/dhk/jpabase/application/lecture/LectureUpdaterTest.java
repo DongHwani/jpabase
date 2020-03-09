@@ -1,26 +1,17 @@
 package com.dhk.jpabase.application.lecture;
 
+import com.dhk.jpabase.Description;
 import com.dhk.jpabase.application.MockTest;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
-import com.dhk.jpabase.domain.lecture.entity.LectureLine;
 import com.dhk.jpabase.domain.lecture.repository.LectureRepository;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.FieldDefinition;
-import io.github.benas.randombeans.FieldDefinitionBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
-import io.github.benas.randombeans.api.EnhancedRandomParameters;
-import io.github.benas.randombeans.api.Randomizer;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
@@ -34,7 +25,18 @@ public class LectureUpdaterTest extends MockTest {
     @Mock
     private LectureRepository lectureRepository;
 
-    private Lecture lecture = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Lecture.class);
+    private Lecture lecture = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+            .collectionSizeRange(5, 10)
+            .build().nextObject(Lecture.class);
+
+    @Test
+    public void LectureUpdate(){
+        //Given
+
+        //When
+        //Then
+
+    }
 
     @Test
     public void LectureLinesUpdate() {
@@ -47,6 +49,7 @@ public class LectureUpdaterTest extends MockTest {
 
         //Then
         verify(lectureRepository, atLeastOnce()).findById(lecture.getLectureId());
+        assertThat(result.getLectureLines().size()).isEqualTo(updatedLecture.getLectureLines().size());
     }
 
 
