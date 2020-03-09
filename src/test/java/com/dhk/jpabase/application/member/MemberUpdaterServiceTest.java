@@ -1,4 +1,4 @@
-package com.dhk.jpabase.application;
+package com.dhk.jpabase.application.member;
 
 import com.dhk.jpabase.application.member.MemberUpdater;
 import com.dhk.jpabase.domain.member.entity.Member;

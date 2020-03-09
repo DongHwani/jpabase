@@ -1,4 +1,4 @@
-package com.dhk.jpabase.domain.repository;
+package com.dhk.jpabase.domain.member.repository;
 
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;

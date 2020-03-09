@@ -1,4 +1,4 @@
-package com.dhk.jpabase.domain.repository;
+package com.dhk.jpabase.domain.lecture.repository;
 
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;

@@ -1,4 +1,4 @@
-package com.dhk.jpabase.application;
+package com.dhk.jpabase.application.lecture;
 
 import com.dhk.jpabase.application.lecture.LectureChanger;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
