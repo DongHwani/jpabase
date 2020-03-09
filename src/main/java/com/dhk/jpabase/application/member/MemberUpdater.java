@@ -10,9 +10,18 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberChangerInformation implements MemberChanger {
+public class MemberUpdater implements MemberProfile {
 
     private final MemberRepository memberRepository;
+
+    @Override
+    public Member updateInformation(final Long memberId, final Member updateMember) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException());
+
+        member.updateInformation(updateMember);
+        return member;
+    }
 
     @Override
     public void changePassword(Long memberId, String newPassword) {
@@ -22,11 +31,5 @@ public class MemberChangerInformation implements MemberChanger {
         member.changePassword(newPassword);
     }
 
-    @Override
-    public void updateInformation(Long memberId, Member newMember) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException());
 
-        member.updateInformation(newMember);
-    }
 }

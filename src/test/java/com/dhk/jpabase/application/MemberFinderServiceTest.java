@@ -28,7 +28,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MemberFinderTest {
+public class MemberFinderServiceTest {
 
     @Autowired
     private MemberFinder memberFinder;

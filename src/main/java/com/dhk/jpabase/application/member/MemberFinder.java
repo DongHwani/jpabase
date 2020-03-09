@@ -2,7 +2,6 @@ package com.dhk.jpabase.application.member;
 
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
-import com.dhk.jpabase.domain.member.repository.MemberRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
