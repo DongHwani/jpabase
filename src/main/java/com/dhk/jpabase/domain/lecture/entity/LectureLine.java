@@ -6,8 +6,7 @@ import javax.persistence.Embeddable;
 
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class LectureLine {
 

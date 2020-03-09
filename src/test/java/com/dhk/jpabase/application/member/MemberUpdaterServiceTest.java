@@ -1,15 +1,13 @@
 package com.dhk.jpabase.application.member;
 
-import com.dhk.jpabase.application.member.MemberUpdater;
+import com.dhk.jpabase.application.MockTest;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
@@ -17,8 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MemberUpdaterServiceTest {
+public class MemberUpdaterServiceTest extends MockTest {
 
     @InjectMocks
     private MemberUpdater memberUpdater;
@@ -36,7 +33,7 @@ public class MemberUpdaterServiceTest {
     @Test
     public void MemberInformationUpdate(){
         //Given
-        Member updateMember =EnhancedRandomBuilder.aNewEnhancedRandomBuilder().build()
+        Member updateMember = EnhancedRandomBuilder.aNewEnhancedRandomBuilder().build()
                               .nextObject(Member.class);
         given(memberRepository.findById(anyLong())).willReturn(Optional.ofNullable(updateMember));
 

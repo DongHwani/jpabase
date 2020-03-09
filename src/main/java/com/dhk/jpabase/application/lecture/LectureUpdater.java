@@ -12,14 +12,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class LectureChanger {
+public class LectureUpdater {
 
     private final LectureRepository lectureRepository;
 
-    public void updateLectureLines(final Long lectureId, List<LectureLine> updateLectureLines){
+    public Lecture updateLectureLines(final Long lectureId, List<LectureLine> updateLectureLines){
        Lecture lecture = lectureRepository.findById(lectureId)
                     .orElseThrow(() -> new IllegalArgumentException());
 
        lecture.updateLectureLines(updateLectureLines);
+       return lecture;
     }
 }

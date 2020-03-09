@@ -37,7 +37,7 @@ public class Lecture extends BaseTime {
     private List<LectureLine> lectureLines = new ArrayList<>();
 
     public void updateLectureLines(List<LectureLine> newLectureLines) {
-        if (newLectureLines == null || newLectureLines.size() == 0) {
+        if (newLectureLines == null || newLectureLines.size() <= 0) {
             throw new IllegalArgumentException();
         }
         this.lectureLines = newLectureLines;
