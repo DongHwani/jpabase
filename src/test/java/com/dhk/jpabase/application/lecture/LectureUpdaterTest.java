@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,11 +31,17 @@ public class LectureUpdaterTest extends MockTest {
             .build().nextObject(Lecture.class);
 
     @Test
+    @Transactional
     public void LectureUpdate(){
         //Given
+        Lecture updateLecture = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Lecture.class);
+
 
         //When
+        Lecture result = lectureUpdater.updateLecture(lecture.getLectureId(), lecture);
+
         //Then
+        assertThat(result).isNotNull();
 
     }
 

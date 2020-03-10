@@ -39,6 +39,8 @@ public class QLecture extends EntityPathBase<Lecture> {
 
     public final ListPath<LectureLine, QLectureLine> lectureLines = this.<LectureLine, QLectureLine>createList("lectureLines", LectureLine.class, QLectureLine.class, PathInits.DIRECT2);
 
+    public final EnumPath<LectureState> lectureState = createEnum("lectureState", LectureState.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 

@@ -36,10 +36,26 @@ public class Lecture extends BaseTime {
     @CollectionTable(name = "lectureLines", joinColumns = @JoinColumn(name = "lectureId"))
     private List<LectureLine> lectureLines;
 
+    @Enumerated(EnumType.STRING)
+    private LectureState lectureState;
+
+
+    public void updateLectureContents(Lecture lecture) {
+        if (lectureState == LectureState.DRAFT) {
+            throw new IllegalArgumentException();
+        }
+        this.lectureClassName = lecture.getLectureClassName();
+        this.lectureInformation = lecture.getLectureInformation();
+        this.category = lecture.getCategory();
+        this.price = lecture.getPrice();
+        this.lectureState = lecture.getLectureState();
+    }
+
     public void updateLectureLines(List<LectureLine> newLectureLines) {
         if (newLectureLines == null || newLectureLines.size() <= 0) {
             throw new IllegalArgumentException();
         }
         this.lectureLines = newLectureLines;
     }
+
 }

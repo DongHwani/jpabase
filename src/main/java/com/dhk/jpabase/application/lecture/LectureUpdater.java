@@ -10,17 +10,27 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class LectureUpdater {
 
     private final LectureRepository lectureRepository;
 
-    public Lecture updateLectureLines(final Long lectureId, List<LectureLine> updateLectureLines){
-       Lecture lecture = lectureRepository.findById(lectureId)
-                    .orElseThrow(() -> new IllegalArgumentException());
 
-       lecture.updateLectureLines(updateLectureLines);
-       return lecture;
+    public Lecture updateLecture(Long lectureId, Lecture lecture) {
+        Lecture updatedLecture = lectureRepository.findById(lectureId)
+                .orElseThrow(() -> new IllegalArgumentException());
+
+        updatedLecture.updateLectureContents(lecture);
+        return updatedLecture;
+    }
+
+
+    public Lecture updateLectureLines(final Long lectureId, List<LectureLine> updateLectureLines) {
+        Lecture lecture = lectureRepository.findById(lectureId)
+                .orElseThrow(() -> new IllegalArgumentException());
+
+        lecture.updateLectureLines(updateLectureLines);
+        return lecture;
     }
 }

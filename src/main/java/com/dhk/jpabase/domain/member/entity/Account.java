@@ -5,9 +5,7 @@ import lombok.*;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Builder @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
 
     private Boolean accountNonExpired;

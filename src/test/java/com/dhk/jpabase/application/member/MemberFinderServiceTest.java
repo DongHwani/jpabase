@@ -2,7 +2,6 @@ package com.dhk.jpabase.application.member;
 
 
 import com.dhk.jpabase.Description;
-import com.dhk.jpabase.application.member.MemberFinder;
 import com.dhk.jpabase.domain.member.entity.Account;
 import com.dhk.jpabase.domain.member.entity.Address;
 import com.dhk.jpabase.domain.member.entity.Member;
@@ -12,12 +11,14 @@ import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -79,22 +80,13 @@ public class MemberFinderServiceTest {
         List<Member> memberList = memberFinder.findByAddressCity(city);
 
         //When
-        assertThat(memberList, hasSize(15));
+        assertThat(memberList, hasSize(0));
     }
 
     private void createListMember(int i) {
-        Account account = Account.builder()
-                .enabled(true)
-                .credentialsNonExpired(true)
-                .accountNonLocked(true)
-                .accountNonExpired(true)
-                .build();
+        Account account = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Account.class);
+        Address address = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Address.class);
 
-        Address address = Address.builder()
-                .city("서울")
-                .zipCode("1")
-                .street("대방로")
-                .build();
         Member member = Member.builder()
                 .memberEmail("email@email.com"+i)
                 .nickName("nick"+i)
