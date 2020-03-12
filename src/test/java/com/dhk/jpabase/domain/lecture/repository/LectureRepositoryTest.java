@@ -1,26 +1,26 @@
 package com.dhk.jpabase.domain.lecture.repository;
 
+import com.dhk.jpabase.Description;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
-import com.dhk.jpabase.domain.lecture.entity.LectureLine;
-import com.dhk.jpabase.domain.lecture.entity.LectureState;
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.domain.member.repository.MemberRepository;
-import com.sun.tools.javac.util.List;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
-import org.assertj.core.util.Arrays;
+import com.dhk.jpabase.setup.domain.LectureSetUp;
+import com.dhk.jpabase.setup.domain.MemberSetUp;
+import com.dhk.jpabase.setup.model.LectureBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -35,18 +35,21 @@ public class LectureRepositoryTest {
     private LectureRepository lectureRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberSetUp memberSetUp;
+
+    @Autowired
+    private LectureSetUp lectureSetUp;
 
     private Lecture lecture;
 
     @Before
-    public void setUp(){
-       lecture = createLecture();
+    public void setUp() {
+        Member member = memberSetUp.save();
+        lecture = LectureBuilder.build(member);
     }
 
-
     @Test
-    public void saveLecture(){
+    public void saveLecture() {
         //Given & When
         Lecture savedLecture = lectureRepository.save(lecture);
 
@@ -65,7 +68,7 @@ public class LectureRepositoryTest {
 
 
     @Test
-    public void getLecture(){
+    public void getLecture() {
         //Given
         Lecture savedLecture = lectureRepository.save(lecture);
 
@@ -83,7 +86,7 @@ public class LectureRepositoryTest {
     }
 
     @Test
-    public void deleteLecture(){
+    public void deleteLecture() {
         //Given
         Lecture savedLecture = lectureRepository.save(lecture);
 
@@ -92,26 +95,46 @@ public class LectureRepositoryTest {
         assertThat(lectureRepository.count()).isEqualTo(0);
     }
 
+    @Test
+    public void getListLecture() {
+        //Given
+        IntStream.range(0, 10).forEach((i) -> lectureSetUp.save());
 
-    private Lecture createLecture() {
-        Member member = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Member.class, "memberId");
-        Member result = memberRepository.save(member);
+        //When
+        List<Lecture> list = lectureRepository.findAll();
 
-        ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom.randomListOf(5, LectureLine.class);
-
-        Lecture lecture = Lecture.builder()
-                .lectureInformation("이 강의는 유익한 강의이다.")
-                .lectureClassName("열혈 JAVA")
-                .category(LectureCategory.JAVA)
-                .price(new BigDecimal(150000))
-                .lectureLines(lines)
-                .lectureState(LectureState.DRAFT)
-                .instructor(result)
-                .build();
-
-        return lecture;
+        //Then
+        assertThat(list, hasSize(10));
     }
 
+    @Test
+    @Description("전체 강의목록의 첫번째 페이지 10개 항목 조회 테스트")
+    public void get10PagedLecture() {
+        //Given
+        IntStream.range(0, 15).forEach((i) -> lectureSetUp.save());
+        Pageable pageable = PageRequest.of(0, 10);
 
+        //When
+        Page<Lecture> lecturePage = lectureRepository.findAll(pageable);
+
+        //Then
+        assertThat(lecturePage.getContent(), hasSize(10)); //조회 요청한 페이지 컨텐츠가 10개인지
+    }
+
+    @Test
+    @Description("카테고리 JAVA로 전체 페이지 조회 테스트")
+    public void getJavaLectureList() {
+        //Given
+        IntStream.range(0, 10).forEach((i) -> lectureSetUp.save());
+        IntStream.range(0, 3).forEach((i) -> lectureSetUp.saveLectureJava());
+
+        //When
+        Pageable pageable = PageRequest.of(0, 10);
+        List<Lecture> list = lectureRepository.findByCategory(LectureCategory.JAVA, pageable);
+
+        //Then
+        assertThat(list, hasSize(3));
+
+    }
 
 }

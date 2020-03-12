@@ -5,28 +5,34 @@ import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
 import com.dhk.jpabase.domain.lecture.entity.LectureLine;
 import com.dhk.jpabase.domain.lecture.entity.LectureState;
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.domain.member.repository.MemberRepository;
-import com.dhk.jpabase.setup.domain.LectureSetUp;
-import com.dhk.jpabase.setup.domain.MemberSetUp;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
-@RequiredArgsConstructor
 public class LectureBuilder {
 
-    private final MemberSetUp memberSetUp;
+    public static Lecture build(Member member) {
+        ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom.randomListOf(5, LectureLine.class);
+        return Lecture.builder()
+                .category(LectureCategory.C)
+                .lectureClassName("JAVA를 잡자")
+                .lectureInformation("정보")
+                .price(new BigDecimal(15000))
+                .instructor(member)
+                .lectureState(LectureState.PREPARATION)
+                .lectureLines(lines)
+                .build();
+    }
 
-    public static Lecture build() {
-        ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom
-                                            .randomListOf(5, LectureLine.class);
+    public static Lecture buildLectureJava(Member member) {
+        ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom.randomListOf(5, LectureLine.class);
         return Lecture.builder()
                 .category(LectureCategory.JAVA)
-                .lectureClassName("JAVA 초보")
+                .lectureClassName("JAVA를 잡자")
                 .lectureInformation("정보")
+                .price(new BigDecimal(15000))
+                .instructor(member)
                 .lectureState(LectureState.PREPARATION)
                 .lectureLines(lines)
                 .build();
