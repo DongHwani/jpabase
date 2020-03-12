@@ -2,6 +2,7 @@ package com.dhk.jpabase.domain.member.repository;
 
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
+import com.dhk.jpabase.setup.domain.MemberSetUp;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.Test;
@@ -20,17 +21,15 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private MemberSetUp memberSetUp;
 
     @Test
     public void saveMember() {
         //Given
-        EnhancedRandom builder = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                .stringLengthRange(3, 5)
-                .collectionSizeRange(1, 3)
-                .build();
-
-        Member member = builder.nextObject(Member.class, "memberId");
+        Member member = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Member.class, "memberId");
 
         //When
         Member savedMember = memberRepository.save(member);
@@ -47,24 +46,30 @@ public class MemberRepositoryTest {
     public void findByEmailMember(){
 
         //Given
-        EnhancedRandom builder = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                .stringLengthRange(3, 5)
-                .collectionSizeRange(1, 3)
-                .build();
-
-        Member member = builder.nextObject(Member.class, "memberId");
-        Member memberSaved = memberRepository.save(member);
+        Member memberSaved = memberSetUp.save();
 
         //When
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberSaved.getMemberEmail());
         Member result = optionalMember.get();
 
         //Then
-        assertThat(result.getNickName()).isEqualTo(member.getNickName());
-        assertThat(result.getMemberEmail()).isEqualTo(member.getMemberEmail());
-        assertThat(result.getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(result.getNickName()).isEqualTo(memberSaved.getNickName());
+        assertThat(result.getMemberEmail()).isEqualTo(memberSaved.getMemberEmail());
+        assertThat(result.getMemberId()).isEqualTo(memberSaved.getMemberId());
         assertThat(result.getCreatedAt()).isNotNull();
         assertThat(result.getModifiedAt()).isNotNull();
+    }
+
+    @Test
+    public void deleteMember(){
+        //Given
+        Member memberSaved = memberSetUp.save();
+
+        //When
+        memberRepository.deleteById(memberSaved.getMemberId());
+
+        //Then
+        assertThat(memberRepository.count()).isEqualTo(0);
     }
 
 }

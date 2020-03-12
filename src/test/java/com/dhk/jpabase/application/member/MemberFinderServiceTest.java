@@ -6,6 +6,7 @@ import com.dhk.jpabase.domain.member.entity.Account;
 import com.dhk.jpabase.domain.member.entity.Address;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
+import com.dhk.jpabase.setup.domain.MemberSetUp;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.Before;
@@ -33,34 +34,29 @@ public class MemberFinderServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
-    private Member member;
 
-    @Before
-    public void setUp() {
-        EnhancedRandom builder = EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
-                .stringLengthRange(3, 5)
-                .collectionSizeRange(1, 3)
-                .build();
-        member = builder.nextObject(Member.class, "memberId");
-    }
+    @Autowired
+    private MemberSetUp memberSetUp;
+
+
 
 
     @Test
     public void findByMemberEmail() {
         //Given
-        Member savedMember = memberRepository.save(member);
+        Member savedMember = memberSetUp.save();
 
         //When
         Member result = memberFinder.findByMemberEmail(savedMember.getMemberEmail());
 
         //Then
-        assertThat(member.getMemberId()).isEqualTo(result.getMemberId());
+        assertThat(savedMember.getMemberId()).isEqualTo(result.getMemberId());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void findByMemberEmail_notFound() {
         //Given & When
-        Member savedMember = memberRepository.save(member);
+        Member savedMember = memberSetUp.save();
         memberFinder.findByMemberEmail(savedMember.getMemberEmail() + "0");
 
     }
@@ -70,8 +66,7 @@ public class MemberFinderServiceTest {
     public void findOutLiveInCity() {
         //Given
         String city = "서울";
-        IntStream.range(0, 15).forEach(this::createListMember);
-        memberRepository.save(member);
+        IntStream.range(0, 15).forEach((i) -> memberSetUp.save());
 
         //When
         List<Member> memberList = memberFinder.findByAddressCity(city);
@@ -80,19 +75,4 @@ public class MemberFinderServiceTest {
         assertThat(memberList, hasSize(0));
     }
 
-    private void createListMember(int i) {
-        Account account = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Account.class);
-        Address address = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Address.class);
-
-        Member member = Member.builder()
-                .memberEmail("email@email.com" + i)
-                .nickName("nick" + i)
-                .password("pass" + i)
-                .phoneNumber("0100112020" + i)
-                .address(address)
-                .account(account)
-                .build();
-
-        this.memberRepository.save(member);
-    }
 }

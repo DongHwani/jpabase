@@ -134,7 +134,6 @@ public class LectureRepositoryTest {
 
         //Then
         assertThat(list, hasSize(3));
-
     }
 
 }

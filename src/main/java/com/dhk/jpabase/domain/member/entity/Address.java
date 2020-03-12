@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
