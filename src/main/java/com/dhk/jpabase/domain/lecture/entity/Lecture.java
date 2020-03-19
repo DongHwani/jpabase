@@ -1,5 +1,6 @@
 package com.dhk.jpabase.domain.lecture.entity;
 
+import com.dhk.jpabase.domain.comment.Comment;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.support.BaseTime;
 import lombok.*;
@@ -24,7 +25,6 @@ public class Lecture extends BaseTime {
     @ManyToOne
     @JoinColumn(name = "instructorId")
     private Member instructor;
-
     private String lectureClassName;
     private String lectureInformation;
 
@@ -39,6 +39,8 @@ public class Lecture extends BaseTime {
     @Enumerated(EnumType.STRING)
     private LectureState lectureState;
 
+    @OneToMany(mappedBy = "commentId")
+    private List<Comment> comments;
 
     public void updateLectureContents(Lecture lecture) {
         if (lectureState == LectureState.DRAFT) {

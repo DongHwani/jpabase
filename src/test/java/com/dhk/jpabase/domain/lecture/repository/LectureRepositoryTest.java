@@ -7,6 +7,7 @@ import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.setup.domain.LectureSetUp;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
 import com.dhk.jpabase.setup.model.LectureBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -40,12 +43,22 @@ public class LectureRepositoryTest {
     @Autowired
     private LectureSetUp lectureSetUp;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private Lecture lecture;
+
+
 
     @Before
     public void setUp() {
         Member member = memberSetUp.save();
         lecture = LectureBuilder.build(member);
+    }
+
+    @After
+    public void cleanUp(){
+        entityManager.clear();
     }
 
     @Test
