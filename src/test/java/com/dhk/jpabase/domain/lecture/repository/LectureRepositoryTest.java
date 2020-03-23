@@ -1,13 +1,16 @@
 package com.dhk.jpabase.domain.lecture.repository;
 
 import com.dhk.jpabase.Description;
+import com.dhk.jpabase.domain.comment.entity.Comment;
+import com.dhk.jpabase.domain.comment.entity.CommentType;
+import com.dhk.jpabase.domain.comment.repository.CommentRepository;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
 import com.dhk.jpabase.domain.member.entity.Member;
+import com.dhk.jpabase.setup.domain.CommentSetUp;
 import com.dhk.jpabase.setup.domain.LectureSetUp;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
 import com.dhk.jpabase.setup.model.LectureBuilder;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +44,8 @@ public class LectureRepositoryTest {
     @Autowired
     private LectureSetUp lectureSetUp;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private CommentRepository commentRepository;
 
     private Lecture lecture;
 
@@ -56,10 +57,6 @@ public class LectureRepositoryTest {
         lecture = LectureBuilder.build(member);
     }
 
-    @After
-    public void cleanUp(){
-        entityManager.clear();
-    }
 
     @Test
     public void saveLecture() {
@@ -83,7 +80,7 @@ public class LectureRepositoryTest {
     @Test
     public void getLecture() {
         //Given
-        Lecture savedLecture = lectureRepository.save(lecture);
+        Lecture savedLecture = lectureSetUp.save();
 
         //When
         Optional<Lecture> optionalLecture = lectureRepository.findById(savedLecture.getLectureId());
@@ -147,6 +144,28 @@ public class LectureRepositoryTest {
 
         //Then
         assertThat(list, hasSize(3));
+    }
+
+    @Test
+    @Description("코멘트가 있는 Lecture 조회")
+    public void getLectureExsistComment(){
+        //Given
+        Lecture lecture = lectureSetUp.save();
+        Comment comment = Comment.builder()
+                .lectureId(lecture.getLectureId())
+                .commentType(CommentType.REVIEW)
+                .content("이 강의 좋아요")
+                .questioner(memberSetUp.save())
+                .build();
+
+        commentRepository.save(comment);
+
+        //When
+        Lecture lectureHasComment = lectureRepository.findByIdWithComments(lecture.getLectureId());
+
+        //Then
+        assertThat(lectureHasComment.getComments(), hasSize(1));
+
     }
 
 }

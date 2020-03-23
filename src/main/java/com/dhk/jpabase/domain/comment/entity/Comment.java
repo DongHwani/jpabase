@@ -1,4 +1,4 @@
-package com.dhk.jpabase.domain.comment;
+package com.dhk.jpabase.domain.comment.entity;
 
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.support.BaseTime;
@@ -19,6 +19,9 @@ public class Comment extends BaseTime {
     @ManyToOne
     @JoinColumn(name="memberId")
     private Member questioner;
+
+    @JoinColumn(name = "lectureId")
+    private Long lectureId;
 
     private String content;
 

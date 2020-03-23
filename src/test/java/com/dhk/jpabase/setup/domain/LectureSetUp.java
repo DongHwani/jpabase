@@ -17,12 +17,12 @@ public class LectureSetUp {
     }
 
     public Lecture save(){
-        final Lecture lecture = LectureBuilder.build(memberSetUp.save());
+        Lecture lecture = LectureBuilder.build(memberSetUp.save());
         return lectureRepository.save(lecture);
     }
 
     public Lecture saveLectureJava(){
-        final Lecture lecture = LectureBuilder.buildLectureJava(memberSetUp.save());
+        Lecture lecture = LectureBuilder.buildLectureJava(memberSetUp.save());
         return lectureRepository.save(lecture);
     }
 }

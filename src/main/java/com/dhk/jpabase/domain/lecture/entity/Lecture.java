@@ -1,13 +1,12 @@
 package com.dhk.jpabase.domain.lecture.entity;
 
-import com.dhk.jpabase.domain.comment.Comment;
+import com.dhk.jpabase.domain.comment.entity.Comment;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.support.BaseTime;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,7 +38,7 @@ public class Lecture extends BaseTime {
     @Enumerated(EnumType.STRING)
     private LectureState lectureState;
 
-    @OneToMany(mappedBy = "commentId")
+    @OneToMany(mappedBy = "commentId", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public void updateLectureContents(Lecture lecture) {

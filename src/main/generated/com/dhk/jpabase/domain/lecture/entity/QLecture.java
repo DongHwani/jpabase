@@ -26,7 +26,7 @@ public class QLecture extends EntityPathBase<Lecture> {
 
     public final EnumPath<LectureCategory> category = createEnum("category", LectureCategory.class);
 
-    public final ListPath<com.dhk.jpabase.domain.comment.Comment, com.dhk.jpabase.domain.comment.QComment> comments = this.<com.dhk.jpabase.domain.comment.Comment, com.dhk.jpabase.domain.comment.QComment>createList("comments", com.dhk.jpabase.domain.comment.Comment.class, com.dhk.jpabase.domain.comment.QComment.class, PathInits.DIRECT2);
+    public final ListPath<com.dhk.jpabase.domain.comment.entity.Comment, com.dhk.jpabase.domain.comment.entity.QComment> comments = this.<com.dhk.jpabase.domain.comment.entity.Comment, com.dhk.jpabase.domain.comment.entity.QComment>createList("comments", com.dhk.jpabase.domain.comment.entity.Comment.class, com.dhk.jpabase.domain.comment.entity.QComment.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
