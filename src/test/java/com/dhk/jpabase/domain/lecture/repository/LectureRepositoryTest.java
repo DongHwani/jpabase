@@ -48,12 +48,12 @@ public class LectureRepositoryTest {
     private CommentRepository commentRepository;
 
     private Lecture lecture;
-
+    private Member member;
 
 
     @Before
     public void setUp() {
-        Member member = memberSetUp.save();
+        member = memberSetUp.save();
         lecture = LectureBuilder.build(member);
     }
 
@@ -147,25 +147,23 @@ public class LectureRepositoryTest {
     }
 
     @Test
-    @Description("코멘트가 있는 Lecture 조회")
+    @Description("Comments를 가지는 게시물을 조회하는 테스트 ")
     public void getLectureExsistComment(){
         //Given
         Lecture lecture = lectureSetUp.save();
         Comment comment = Comment.builder()
-                .lectureId(lecture.getLectureId())
-                .commentType(CommentType.REVIEW)
-                .content("이 강의 좋아요")
-                .questioner(memberSetUp.save())
-                .build();
-
+                        .questioner(member)
+                        .lectureId(lecture.getLectureId())
+                        .content("이 강의 괜찮습니다")
+                        .commentType(CommentType.REVIEW)
+                        .build();
         commentRepository.save(comment);
 
         //When
-        Lecture lectureHasComment = lectureRepository.findByIdWithComments(lecture.getLectureId());
+        Lecture result = lectureRepository.findByIdWithComments(lecture.getLectureId());
 
         //Then
-        assertThat(lectureHasComment.getComments(), hasSize(1));
-
+        assertThat(result.getComments(), hasSize(1));
     }
 
 }

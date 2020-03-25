@@ -38,7 +38,8 @@ public class Lecture extends BaseTime {
     @Enumerated(EnumType.STRING)
     private LectureState lectureState;
 
-    @OneToMany(mappedBy = "commentId", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "lectureId")
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public void updateLectureContents(Lecture lecture) {

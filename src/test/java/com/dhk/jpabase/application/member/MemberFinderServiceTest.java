@@ -2,14 +2,9 @@ package com.dhk.jpabase.application.member;
 
 
 import com.dhk.jpabase.Description;
-import com.dhk.jpabase.domain.member.entity.Account;
-import com.dhk.jpabase.domain.member.entity.Address;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.domain.member.repository.MemberRepository;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,4 +10,5 @@ import java.util.List;
 public interface LectureRepository extends JpaRepository<Lecture, Long>, LectureRepositorySupport {
 
     List<Lecture> findByCategory(LectureCategory category, Pageable pageable);
+
 }

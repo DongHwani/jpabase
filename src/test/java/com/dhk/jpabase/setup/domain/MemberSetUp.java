@@ -19,8 +19,8 @@ public class MemberSetUp {
         return memberRepository.save(member);
     }
 
-    public Member saveCitySeoul(){
-        final Member member = MemberBuilder.buildCitySeoul();
+    public Member saveCitySeoul(int i){
+        final Member member = MemberBuilder.buildCitySeoul(i);
         return memberRepository.save(member);
     }
 }

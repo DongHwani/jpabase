@@ -22,6 +22,6 @@ public class MemberFinder {
     }
 
     public List<Member> findByAddressCity(final String city) {
-        return memberRepository.findByAddressCity(city);
+        return memberRepository.findByAddressCityEquals(city);
     }
 }

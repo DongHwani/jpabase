@@ -1,23 +1,27 @@
 package com.dhk.jpabase.domain.member.repository;
 
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.domain.member.repository.MemberRepository;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class MemberRepositoryTest {
 
     @Autowired
@@ -43,7 +47,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
-    public void findByEmailMember(){
+    public void findByEmailMember() {
 
         //Given
         Member memberSaved = memberSetUp.save();
@@ -61,7 +65,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
-    public void deleteMember(){
+    public void deleteMember() {
         //Given
         Member memberSaved = memberSetUp.save();
 
@@ -70,6 +74,21 @@ public class MemberRepositoryTest {
 
         //Then
         assertThat(memberRepository.count()).isEqualTo(0);
+    }
+
+    @Test
+    public void getMemberWithAddress() {
+        //Given
+        IntStream.range(0, 5).forEach((i) -> memberSetUp.saveCitySeoul(i));
+
+        String city = "서울";
+
+        //When
+        List<Member> result = memberRepository.findByAddressCityEquals(city);
+
+
+        //Then
+        assertThat(result, hasSize(5));
     }
 
 }

@@ -2,9 +2,7 @@ package com.dhk.jpabase.setup.domain;
 
 import com.dhk.jpabase.domain.comment.entity.Comment;
 import com.dhk.jpabase.domain.comment.repository.CommentRepository;
-import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.setup.model.CommentBuilder;
-import com.dhk.jpabase.setup.model.LectureBuilder;
 import org.springframework.stereotype.Component;
 
 @Component

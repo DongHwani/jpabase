@@ -1,11 +1,9 @@
 package com.dhk.jpabase.application.lecture;
 
-import com.dhk.jpabase.Description;
 import com.dhk.jpabase.application.MockTest;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.repository.LectureRepository;
 import com.dhk.jpabase.setup.domain.LectureSetUp;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
