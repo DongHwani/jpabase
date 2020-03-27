@@ -7,7 +7,6 @@ import com.dhk.jpabase.domain.comment.repository.CommentRepository;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.setup.domain.CommentSetUp;
 import com.dhk.jpabase.setup.domain.LectureSetUp;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
 import com.dhk.jpabase.setup.model.LectureBuilder;
@@ -148,7 +147,7 @@ public class LectureRepositoryTest {
 
     @Test
     @Description("Comments를 가지는 게시물을 조회하는 테스트 ")
-    public void getLectureExsistComment(){
+    public void findLectureWithComment(){
         //Given
         Lecture lecture = lectureSetUp.save();
         Comment comment = Comment.builder()
@@ -161,9 +160,9 @@ public class LectureRepositoryTest {
 
         //When
         Lecture result = lectureRepository.findByIdWithComments(lecture.getLectureId());
-
+        List<Comment> listComments = result.getComments();
         //Then
-        assertThat(result.getComments(), hasSize(1));
+        assertThat(listComments, hasSize(1));
     }
 
 }
