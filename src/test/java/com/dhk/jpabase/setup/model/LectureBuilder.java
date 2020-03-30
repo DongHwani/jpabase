@@ -27,21 +27,6 @@ public class LectureBuilder {
                 .build();
     }
 
-
-    public static Lecture build(Member member, List<Comment> comments) {
-        ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom.randomListOf(5, LectureLine.class);
-        return Lecture.builder()
-                .category(LectureCategory.C)
-                .lectureClassName("JAVA를 잡자")
-                .lectureInformation("정보")
-                .price(new BigDecimal(15000))
-                .comments(comments)
-                .instructor(member)
-                .lectureState(LectureState.PREPARATION)
-                .lectureLines(lines)
-                .build();
-    }
-
     public static Lecture buildLectureJava(Member member) {
         ArrayList<LectureLine> lines = (ArrayList) EnhancedRandom.randomListOf(5, LectureLine.class);
         return Lecture.builder()
@@ -52,6 +37,17 @@ public class LectureBuilder {
                 .instructor(member)
                 .lectureState(LectureState.PREPARATION)
                 .lectureLines(lines)
+                .build();
+    }
+
+    public static Lecture buildLectureWithoutLectureLines(Member member) {
+        return Lecture.builder()
+                .category(LectureCategory.JAVA)
+                .lectureClassName("JAVA를 잡자")
+                .lectureInformation("정보")
+                .price(new BigDecimal(15000))
+                .instructor(member)
+                .lectureState(LectureState.PREPARATION)
                 .build();
     }
 }

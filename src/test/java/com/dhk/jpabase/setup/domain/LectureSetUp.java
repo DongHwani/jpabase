@@ -25,5 +25,10 @@ public class LectureSetUp {
         Lecture lecture = LectureBuilder.buildLectureJava(memberSetUp.save());
         return lectureRepository.save(lecture);
     }
+
+    public Lecture saveLectureWithoutLectureLines(){
+        Lecture lecture = LectureBuilder.buildLectureWithoutLectureLines(memberSetUp.save());
+        return lectureRepository.save(lecture);
+    }
 }
 

@@ -48,7 +48,7 @@ public class Lecture extends BaseTime {
     }
 
     public void updateLectureContents(Lecture lecture) {
-        if (lectureState == LectureState.DRAFT) {
+        if (lecture.getLectureState() == LectureState.DRAFT) {
             throw new IllegalArgumentException();
         }
         this.lectureClassName = lecture.getLectureClassName();
