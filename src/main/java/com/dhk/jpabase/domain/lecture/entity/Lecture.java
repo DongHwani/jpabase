@@ -42,6 +42,11 @@ public class Lecture extends BaseTime {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+
+    public void updateLectureState(LectureState lectureState){
+        this.lectureState = lectureState;
+    }
+
     public void updateLectureContents(Lecture lecture) {
         if (lectureState == LectureState.DRAFT) {
             throw new IllegalArgumentException();

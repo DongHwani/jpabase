@@ -6,6 +6,7 @@ import com.dhk.jpabase.domain.comment.entity.CommentType;
 import com.dhk.jpabase.domain.comment.repository.CommentRepository;
 import com.dhk.jpabase.domain.lecture.entity.Lecture;
 import com.dhk.jpabase.domain.lecture.entity.LectureCategory;
+import com.dhk.jpabase.domain.lecture.entity.LectureState;
 import com.dhk.jpabase.domain.member.entity.Member;
 import com.dhk.jpabase.setup.domain.LectureSetUp;
 import com.dhk.jpabase.setup.domain.MemberSetUp;
@@ -20,6 +21,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,9 @@ import static org.junit.Assert.assertThat;
 @SpringBootTest
 @Transactional
 public class LectureRepositoryTest {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private LectureRepository lectureRepository;
@@ -54,6 +60,7 @@ public class LectureRepositoryTest {
     public void setUp() {
         member = memberSetUp.save();
         lecture = LectureBuilder.build(member);
+        entityManager.clear();
     }
 
 
@@ -150,13 +157,20 @@ public class LectureRepositoryTest {
     public void findLectureWithComment(){
         //Given
         Lecture lecture = lectureSetUp.save();
-        Comment comment = Comment.builder()
+        Comment comment1 = Comment.builder()
                         .questioner(member)
                         .lectureId(lecture.getLectureId())
                         .content("이 강의 괜찮습니다")
                         .commentType(CommentType.REVIEW)
                         .build();
-        commentRepository.save(comment);
+        Comment comment2 = Comment.builder()
+                        .questioner(member)
+                        .lectureId(lecture.getLectureId())
+                        .content("이 강의 괜찮습니다")
+                        .commentType(CommentType.REVIEW)
+                        .build();
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
 
         //When
         Lecture result = lectureRepository.findByIdWithComments(lecture.getLectureId());
