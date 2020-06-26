@@ -1,12 +1,7 @@
 spring:
-  cache: redis
-  redis:
-    host: localhost
-    port: 6379
-
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jpa?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://192.168.99.100:3306/jpa?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
     username: dhk
     password: dhk
   jpa:

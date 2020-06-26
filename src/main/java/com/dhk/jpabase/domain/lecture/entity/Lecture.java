@@ -2,9 +2,7 @@ package com.dhk.jpabase.domain.lecture.entity;
 
 import com.dhk.jpabase.domain.comment.entity.Comment;
 import com.dhk.jpabase.domain.member.entity.Member;
-import com.dhk.jpabase.domain.support.BaseTime;
 import lombok.*;
-import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +15,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(schema = "jpa", name = "lectures")
-@RedisHash("Lecture")
-public class Lecture extends BaseTime implements Serializable {
+public class Lecture extends BaseTiXme implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +42,7 @@ public class Lecture extends BaseTime implements Serializable {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    private int viewCount;
+    private int attendee;
 
     public void updateLectureState(LectureState lectureState){
         this.lectureState = lectureState;
