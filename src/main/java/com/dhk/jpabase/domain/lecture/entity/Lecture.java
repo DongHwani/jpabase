@@ -2,6 +2,7 @@ package com.dhk.jpabase.domain.lecture.entity;
 
 import com.dhk.jpabase.domain.comment.entity.Comment;
 import com.dhk.jpabase.domain.member.entity.Member;
+import com.dhk.jpabase.domain.support.BaseTime;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(schema = "jpa", name = "lectures")
-public class Lecture extends BaseTiXme implements Serializable {
+public class Lecture extends BaseTime implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
