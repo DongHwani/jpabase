@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class LectureController {
 
-
     @Autowired
     private LectureFinder lectureFinder;
 
     @GetMapping("/lecture/{lectureId}")
-    @CachePut(key = "viewCount", value = "1")
+//    @CachePut(key = "attenddes", value = "1")
     public ResponseEntity getLecture(@PathVariable Long lectureId){
+
         Lecture lecture = lectureFinder.getLecture(lectureId);
 
         return new ResponseEntity<>(lecture, HttpStatus.OK);

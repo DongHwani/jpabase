@@ -24,6 +24,8 @@ public class QLecture extends EntityPathBase<Lecture> {
 
     public final com.dhk.jpabase.domain.support.QBaseTime _super = new com.dhk.jpabase.domain.support.QBaseTime(this);
 
+    public final NumberPath<Integer> attendee = createNumber("attendee", Integer.class);
+
     public final EnumPath<LectureCategory> category = createEnum("category", LectureCategory.class);
 
     public final ListPath<com.dhk.jpabase.domain.comment.entity.Comment, com.dhk.jpabase.domain.comment.entity.QComment> comments = this.<com.dhk.jpabase.domain.comment.entity.Comment, com.dhk.jpabase.domain.comment.entity.QComment>createList("comments", com.dhk.jpabase.domain.comment.entity.Comment.class, com.dhk.jpabase.domain.comment.entity.QComment.class, PathInits.DIRECT2);
